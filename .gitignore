@@ -2,7 +2,7 @@
 .settings
 .classpath
 .project
-.target/
+target/
 project/target/
 project/project/
 
