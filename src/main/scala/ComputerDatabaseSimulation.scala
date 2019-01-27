@@ -22,10 +22,10 @@ object Search {
     .feed(feeder)
     .exec(http("Search")
       .get("/computers?f=${searchCriterion}")
-      .check(css("a:contains('${searchComputerName}')", "href").saveAs("computerUrl")))
+      .check(css("a:contains('${searchComputerName}')", "href").saveAs("computerURL")))
     .pause(1)
     .exec(http("Select")
-      .get("${computerUrl}"))
+      .get("${computerURL}"))
     .pause(1)
 }
 
@@ -69,10 +69,11 @@ class ComputerDatabaseSimulation extends Simulation {
 
   setUp(
     users.inject(
-      incrementUsersPerSec(2)
+      incrementConcurrentUsers(8) // Open Workload Model
         .times(2)
-        .eachLevelLasting(10)
-        .separatedByRampsLasting(10)
+        .eachLevelLasting(10 seconds)
+        .separatedByRampsLasting(0)
+        .startingFrom(5)
       )
 //    admins.inject(rampUsers(2) during(10))
     ).protocols(httpProtocol)
